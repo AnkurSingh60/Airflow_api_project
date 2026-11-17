@@ -1,0 +1,26 @@
+services:
+  airflow:
+    image: apache/airflow:3.1.3
+    container_name: airflow
+    ports:
+      - "8080:8080"
+    command: standalone
+    environment:
+      AIRFLOW__CORE__LOAD_EXAMPLES: "false"
+    volumes:
+      - ./dags:/opt/airflow/dags
+
+  postgres:
+    image: postgres:16
+    container_name: products_postgres
+    environment:
+      POSTGRES_USER: products_user
+      POSTGRES_PASSWORD: products_pass
+      POSTGRES_DB: products_db
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+    postgres_data:
